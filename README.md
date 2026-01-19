@@ -63,4 +63,4 @@ CSS3
 
 License
 
-MIT
+MIT# bluryeffect
