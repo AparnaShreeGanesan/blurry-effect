@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BlurYEffect – Blurry Image Identifier</title>
+    <meta name="description" content="BlurYEffect provides fast blurry image detection for uploads, datasets, and automated image quality checks.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="logo">BlurYEffect</div>
+            <nav class="nav-links" aria-label="Primary navigation">
+                <a href="#demo">Demo</a>
+                <a href="#code">Code samples</a>
+                <a href="#features">Use cases</a>
+            </nav>
+            <a href="#demo" class="primary-link">Start analyzing</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-inner">
+                <div class="hero-copy">
+                    <p class="hero-kicker">Image quality signal</p>
+                    <h1>Blurry image screening for your product</h1>
+                    <p class="hero-subtitle">
+                        Automatically flag blurry or low-quality uploads before they reach your users,
+                        datasets, or downstream workflows. Run in the browser or behind an API.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#demo" class="primary-button">Upload an image</a>
+                        <a href="#code" class="secondary-button">Explore integration code</a>
+                    </div>
+                    <p class="hero-footnote">
+                        A focused landing page for a blurry image detection capability, complete with an
+                        interactive playground and production-oriented code examples.
+                    </p>
+                </div>
+                <div class="hero-panel">
+                    <div class="hero-panel-header">
+                        <div class="status-dot"></div>
+                        <span>Live blurry check</span>
+                    </div>
+                    <div class="hero-panel-body">
+                        <div class="hero-panel-label">Drop an image to see if it is blurry</div>
+                        <div class="hero-dropzone" id="hero-dropzone">
+                            <input type="file" id="hero-file-input" accept="image/*">
+                            <p>Drag and drop or click to upload</p>
+                        </div>
+                        <div class="hero-result" id="hero-result">
+                            <div class="hero-result-label">Waiting for image</div>
+                            <div class="hero-result-score" id="hero-score"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="demo" class="section">
+            <div class="container">
+                <h2>Try the blurry image detector</h2>
+                <p class="section-subtitle">
+                    Everything runs locally in your browser. Upload an image and see how sharpness is
+                    estimated with a simple Laplacian-based heuristic.
+                </p>
+
+                <div class="demo-grid">
+                    <div class="demo-left">
+                        <label class="field-label" for="file-input">Upload image</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="file-input" accept="image/*">
+                        </div>
+                        <p class="demo-hint">
+                            For best results, try both sharp and intentionally blurry photos.
+                        </p>
+
+                        <div class="demo-metrics">
+                            <div class="metric">
+                                <div class="metric-label">Classification</div>
+                                <div class="metric-value" id="metric-label">Waiting for image</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Sharpness score</div>
+                                <div class="metric-value" id="metric-score">–</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Threshold</div>
+                                <div class="metric-value" id="metric-threshold">40.0</div>
+                            </div>
+                        </div>
+
+                        <div class="demo-tuning" aria-label="Blur sensitivity tuning controls">
+                            <div class="tuning-label-row">
+                                <span class="tuning-label">Sensitivity</span>
+                                <span class="tuning-value" id="threshold-value">40</span>
+                            </div>
+                            <input
+                                type="range"
+                                id="threshold-slider"
+                                min="20"
+                                max="120"
+                                step="5"
+                                value="40"
+                            >
+                            <p class="demo-tuning-note">
+                                Adjust this if the result differs from other tools. Lower values are more
+                                forgiving; higher values flag more images as blurry.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="demo-right">
+                        <div class="preview-frame">
+                            <canvas id="preview-canvas"></canvas>
+                            <div class="preview-placeholder" id="preview-placeholder">
+                                <span>No image loaded yet</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="demo-note">
+                    This is a lightweight demonstration and not a replacement for a production-grade
+                    model. It shows the kind of interactive playground that often accompanies an image
+                    quality API.
+                </p>
+            </div>
+        </section>
+
+        <section id="code" class="section section-alt">
+            <div class="container">
+                <h2>Code samples</h2>
+                <p class="section-subtitle">
+                    The examples below show what an integration might look like if this were exposed as
+                    a hosted API. Replace placeholders with your own credentials and endpoint.
+                </p>
+
+                <div class="code-card">
+                    <div class="code-tabs">
+                        <button class="code-tab active" data-lang="python">Python</button>
+                        <button class="code-tab" data-lang="javascript">JavaScript</button>
+                        <button class="code-tab" data-lang="curl">cURL</button>
+                    </div>
+                    <div class="code-body">
+                        <pre class="code-block active" data-lang="python"><code>import requests
+
+endpoint = "https://api.example.com/v1/blurry-image-identifier/invoke"
+token = "YOUR_BEARER_TOKEN"
+
+payload = {
+    "data": "https://example.com/your-image.jpg"
+}
+
+response = requests.post(
+    endpoint,
+    json=payload,
+    headers={"Authorization": f"Bearer {token}"}
+)
+
+print(response.json())</code></pre>
+
+                        <pre class="code-block" data-lang="javascript"><code>fetch("https://api.example.com/v1/blurry-image-identifier/invoke", {
+    method: "POST",
+    headers: {
+        "Authorization": "Bearer " + "YOUR_BEARER_TOKEN",
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        data: "https://example.com/your-image.jpg"
+    })
+})
+    .then(response =&gt; response.json())
+    .then(console.log);</code></pre>
+
+                        <pre class="code-block" data-lang="curl"><code>curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_BEARER_TOKEN" \
+  -d '{"data": "https://example.com/your-image.jpg"}' \
+  https://api.example.com/v1/blurry-image-identifier/invoke</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section">
+            <div class="container">
+                <h2>Why detect blurry images</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>Better user uploads</h3>
+                        <p>
+                            Catch low-quality images as they are uploaded so users can submit sharper
+                            photos before they are stored or processed.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Higher quality datasets</h3>
+                        <p>
+                            Filter out blurry samples from training datasets to improve downstream model
+                            performance on vision tasks.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Automated QA checks</h3>
+                        <p>
+                            Integrate blur detection into pipelines for ecommerce, ID verification, and
+                            photography workflows.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div class="footer-left">
+                <div class="logo">BlurYEffect</div>
+                <p>Blurry image quality screening for modern applications and workflows.</p>
+            </div>
+            <div class="footer-right">
+                <a href="#top">Back to top</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
